@@ -1,0 +1,285 @@
+Aim: Write a Program to perform MergeSort.
+Algorithm:
+•	Divide: n elements into two subsets of n/2 elements each
+•	Conquer: Sort the two subsets recursively using merge sort
+•	Combine: Merge two subsets to get a sorted sets
+Algorithm Merge(low, mid, high)
+h:= low; i:= low; j:= mid+1;
+while ( (h ≤ mid) and (j ≤ high) ) do {
+if (a[h] ≤ a[j]) then {
+b[i] := a[h]; h:= h + 1;
+}
+else {
+b[i] := a[j]; j:= j + 1;
+}
+i := i + 1;
+if (h > mid) then
+for k:=j to high do {
+b[i]:= a[k]; i := i + 1;
+}
+else
+for k:=h to mid do {
+b[i]:= a[k]; i := i + 1;
+}
+for k:=low to high do
+a[k]:= b[k];
+}
+Algorithm MergeSort(low, High)
+{
+if (low < high) then
+{
+mid := (low+high)/2;
+MergeSort(low, mid);
+MergeSort(mid+1, high);
+Merge(low, mid, high);
+}
+}
+
+
+ 
+Aim: Write a Program to perform QuickSort. 
+Algorithm: 
+•	Partition the elements into two sets based on pivot element
+•	Set of elements to the left of pivot are smaller than the pivot
+•	Set of elements to the right of pivot are larger than the pivot
+
+Algorithm Partition(a, m, p)
+v:= a[m]; i:= m; j:= p;
+repeat {
+repeat
+i:= i + 1;
+until (a[i] ≥ v);
+repeat
+j := j-1;
+until (a[j] ≤ v);
+if (i<j) then
+} until (i ≥ j);
+a[m]:= a[j];
+a[j]:= v;
+return j;
+}
+Algorithm QuickSort(p, q)
+{
+if (p < q) then
+{
+j := Partition(a, p, q+1);
+QuickSort(p, j-1);
+QuickSort(j+1, q);
+}
+}
+
+
+Aim: Write a Program to perform Prims Algorithm.
+Algorithm: 
+Prim’s Algorithm:
+•	Start by selecting a vertex which has minimum cost edge.
+•	Let A be the set of edge selected which forms a tree
+•	Subsequently at each stage select the next minimum cost
+•	edge (u,v) which is not in set A and A ∪ {(u,v)} is also a tree
+•	Continue until all the vertices are in a tree
+
+Prim’s Algorithm
+{
+repeat
+Find minimum edge (u,v) connecting A
+to a vertex not in A
+A = A ∪ {(u,v)}
+until all vertices are in A
+}
+Algorithm Prim(E, cost, n, t)
+{
+Let (k,l) be an edge of minimum cost in E;
+mincost:= cost[k,l]; t[1,1]:= k; t[k,2]:= l;
+for i := 1 to n do
+if (cost[i,l] < cost[i,k]) then
+near[i]:= l;
+else
+near[i]:= k;
+near[k]:= near[l]:= 0;
+for i:= 2 to n-1 do {
+Let j be an index such that near[j] ≠ 0 and cost[j,near[j]] is minimum;
+t[i,1]:= j; t[i,2]:= near[j];
+mincost:= mincost + cost[j,near[j]];
+near[j]:= 0;
+for k:=1 to n do
+if ((near[k] ≠ 0) and (cost[k,near[k]] > cost[k,j])) then
+near[k]:= j;
+}
+return mincost; }
+
+ 
+Aim: Write a Program to perform Kruskal Algorithm.
+Algorithm:
+Kruskal’s Algorithm:
+•	Optimization criteria: Select edges in non-decreasing order of cost.
+•	Include edges that don’t create cycles
+•	Set of edges selected at any stage should be such that it is possible to complete into a tree
+
+Kruskal’s Algorithm
+{
+repeat
+Find minimum edge (u,v) between two unconnected components
+A = A ∪ {(u,v)}
+until all edges are considered
+}
+Algorithm Kruskal(E, cost, n, t)
+{
+Construct a heap out of the edge costs using Heapify;
+for i:=1 to n do parent[i]:= -1;
+i := 0; mincost:= 0.0;
+while ((i<n-1) and (heap not empty)) do {
+Delete a minimum cost edge (u,v) from the heap and reheapify using Adjust;
+j:= Find(u); k:= Find(v);
+if (j ≠ k) then {
+i := i+1;	
+t[i,1]:= u; t[i,2]:= v;
+mincost := mincost + cost[u,v];
+Union(j,k);
+}
+}
+if (i ≠ n-1) then
+write(“No Spanning Tree”);
+else
+return mincost;
+}
+
+
+Aim: Write a Program to perform Breadth-First Search Algorithm.
+Algorithm:
+•	Breadth-First Search subdivides the vertices into levels
+•	Starts at a vertex, which is considered at level 0
+•	Identifies all the vertices reachable from starts vertex at level 1, marks them visited
+•	In next round, identifies new vertices reachable from level 1 which are not yet visited, marks them visited
+•	This process continues until no vertices are found
+Algorithm BFS(v)
+{ // Array visited[] initialized to 0
+// q is queue of unexplored vertices
+u:= v;
+visited[v]:= 1;
+repeat
+{
+for all vertices w adjacent from u do
+{
+if (visited[w] = 0) then
+{
+Add w to q;
+visited[w]:= 1;
+}
+}
+if q is empty then return;
+Delete u from q;
+}until(false);
+}
+Algorithm BFS(s)
+{
+i:= s; q:= Queue(); visited[]=[0,0,0 …… n-1];
+print(i);
+visited[i] = 1;
+q.enqueue(i);
+while !q.isempty() do
+{
+i = q.dequeue();
+for j:= 0 to n do
+if adjmat[i][j]=1 and visited[j] = 0 then
+{
+print(j);
+visited[j] = 1;
+q.enqueue(j);
+}
+}
+}
+
+Aim: Write a Program to perform Depth-First Search Algorithm.
+Algorithm:
+•	Depth-First Search 1 starts at a vertex
+•	Selects the adjacent vertex from the start vertex
+•	Visit the adjacent vertex, mark as visited
+•	Continue the above procedure, until there are no more unexplored edges, then terminate
+Algorithm DFS(v)
+{ // visited array initialized to 0
+visited[v]:= 1;
+for each vertex w adjacent from v do
+{
+if (visited[w] = 0) then
+DFS(w);
+}
+}
+Algorithm DFS(s) {
+if visited[s] = 0 then
+{
+print(s);
+visited[s] = 1;
+for j:= 0 to n do
+if adjmat[s][j]=1 && visited[j] = 0 then
+DFS(j);
+}
+}
+
+
+Aim: Write a Program to Perform 0/1 Knapsack Algorithm.
+Algorithm:
+•	Given n objects with weights wi, profits pi and capacity 1 m of knapsack
+•	If object can be placed in knapsack, then solution xi = 1, else xi = 0
+•	The objective is to fill the knapsack that maximizes the total profit
+Note: Knapsack is filled with entire weight of the object or object is not considered at all depending upon the remaining capacity of the knapsack.
+Algorithm DKP(p, w, n, m)
+{
+S0:= {(0,0)};
+for i:=1 to n-1 do
+{
+S1
+i-1:= {(P,W) | (P-pi,W-wi)∈ Si-1 and W ≤ m };
+Si:= MergePurge(Si-1,S1
+i-1);
+}
+(PX,WX):= last pair in Sn-1;
+(PY,WY):= (P’+pn,W’+wn) where W’ is the largest W
+in any pair is Sn-1 such that W + wn ≤ m;
+if (PX > PY) then
+xn:= 0;
+else
+Xn:=1;
+TraceBackFor(xn-1,…………, x1);
+}
+
+Aim: Write a Program to perform Dijkstra Algorithm.
+Algorithm:
+Determines the shortest paths from source vertex to all the other vertices
+•	Assumes that all the weights are non-negative
+•	Paths are discovered in the order of their weighted length
+•	Uses relaxation technique to minimize the length of the path
+Algorithm ShortestPaths(v, cost, dist, n) {
+{
+for i := 1 to n do
+{
+S[i]:= false; dist[i]:= cost[v,i];
+}
+S[v]:= true; dist[v]:=0.0;
+for num:= 2 to n-1 do
+{
+Choose u from among those vertices not in S
+such that dist[u] is minimum ;
+S[u]:= true;
+for (each w adjacent to u with S[w] = false) do
+if (dist[w] > dist[u] + cost[u,w]) then
+dist[w]:= dist[u] + cost[u,w];
+}
+}
+ 
+Aim: Write a Program to perform All Pairs Shortest Path Floyd Warshalls Algorithm.
+Algorithm:
+𝐴k 𝑖, 𝑗 = 𝑚𝑖𝑛 { k-1 𝑖, 𝑗 , 𝐴k-1 𝑖, 𝑘 + 𝐴k-1(𝑘, 𝑗) }
+Cost of the path between vertex i and j is represented 1 by A[i,j]
+Minimum cost of A[i,j] is cost of A[i,k] + A[k,j] where k is intermediate vertex
+Compute A[i,j] for all intermediate vertices k
+
+Algorithm AllPaths(cost, A, n)
+{
+for i:=1 to n do
+for j:=1 to n do
+A[i,j]:= cost[i,j];
+for k:=1 to n do
+for i:=1 to n do
+for j:=1 to n do
+A[i,j]:= min(A[i,j], A[i,k]+A[k,j]);
+}
